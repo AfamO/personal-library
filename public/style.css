@@ -1,25 +1,128 @@
 .border {
   border-style: inset;
   border-width: 1px;
-  margin: 10px;
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 12em;
+  border-radius: 30%;
+}
+img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+.booksBorder {
+  border-style: inset;
+  border-width: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 12em;
+}
+h1{
+  color: white;
+  font-size: 4em;
+  text-shadow: 1px 1px 2px darkolivegreen, 0 0 25px white, 0 0 5px darkolivegreen;
+}
+h2{
+  color: darkolivegreen;
 }
 
-#sampleui {
-  max-width: 450px;
-  margin-left: 5%;
+#detailTitle{
+  font-size: 1.5em;
+  font-family: cursive;
+  color: darkolivegreen;
+}
+ol{
+
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 25%;
+}
+li{
+  list-style: none;
+  border: 0.1em solid darkolivegreen;
+  border-radius: 10px;
+  padding: 1em 1em 1.5em 1em;
+  font-size: 2em;
+  font-family: cursive, sans-serif;
+}
+.commentsList{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100%;
+  list-style: none;
+  border: 0.1em solid darkolivegreen;
+  border-radius: 10px;
+  padding: 1em 1em 1.5em 1em;
+  font-size: 1em;
+  font-family: cursive sans-serif;
+}
+#newCommentForm{
+  margin-right: 5em;
+}
+
+#sampleui{
+  max-width: 80%;
+  text-align: center;
   height: 100%;
 }
-
-#sampleposting {
-  max-width: 450px;
+#sampleui h2{
   text-align: center;
-  margin-left: 5%;
+}
+button{
+  font-size: 2.5em;
+  margin-top: 2em;
+  padding: 0.5em 1.5em 0.5em 0.5em;
+  border: 0.1em solid white;
+  border-radius: 7px;
+  width: 50%;
+  height: 3em;
+}
+#deleteAllBooks{
+  margin-top: 0em;
+}
+input[type='text']{
+  height: 3em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 0.5em 1em 0.5em 0.5em;
+  box-shadow: 1px 1px 12px darkolivegreen;
+}
+::placeholder{
+  color: darkgreen;
+  text-align: center;
 }
 
-#userstories {
-  margin-left: 5%;
+h2{
+  color: darkolivegreen;
+
 }
+.well div {
+  margin-top: 1em;
+  text-align: center;
+}
+
 
 form {
   padding: 5px;
+}
+@media(max-width:520px){
+
+  .border{
+    width:80%;
+  }
+  ol{
+    width: 85%;
+  }
+  button{
+    width: 95%;
+  }
 }

@@ -1,15 +1,12 @@
 $( document ).ready(function() {
   var items = [];
   var itemsRaw = [];
-  var glcbalBookCounter=0;
+  
   $.getJSON('/api/books', function(data) {
     //var items = [];
     itemsRaw = data;
     $.each(data, function(i, val) {
-
       items.push('<li class="bookItem" id="' + i + '">' + val.title + ' - ' + val.commentcount + ' comments</li>');
-
-      glcbalBookCounter=i;
       return ( i !== 14 );
     });
     if (items.length >= 15) {
@@ -22,20 +19,17 @@ $( document ).ready(function() {
   });
   
   var comments = [];
-
   $('#display').on('click','li.bookItem',function() {
     $("#detailTitle").html('<b>'+itemsRaw[this.id].title+'</b> (id: '+itemsRaw[this.id]._id+')');
     $.getJSON('/api/books/'+itemsRaw[this.id]._id, function(data) {
       comments = [];
       $.each(data.comments, function(i, val) {
-        comments.push('<li class="commentsList">' +val+ '</li>');
+        comments.push('<li>' +val+ '</li>');
       });
-
       comments.push('<br><form id="newCommentForm"><input style="width:300px" type="text" class="form-control" id="commentToAdd" name="comment" placeholder="New Comment"></form>');
       comments.push('<br><button class="btn btn-info addComment" id="'+ data._id+'">Add Comment</button>');
       comments.push('<button class="btn btn-danger deleteBook" id="'+ data._id+'">Delete Book</button>');
       $('#detailComments').html(comments.join(''));
-
     });
   });
   
@@ -45,16 +39,7 @@ $( document ).ready(function() {
       type: 'delete',
       success: function(data) {
         //update list
-        if(data.status==200){
-          glcbalBookCounter++;
-          itemsRaw.pop();
-          $('<ul/>', {
-            'class': 'listWrapper',
-            html: itemsRaw.join('')
-          }).appendTo('#display');
-
-        }
-        $('#detailComments').html('<p style="color: red;">'+data.msg+'<p><p>Refresh the page</p>');
+        $('#detailComments').html('<p style="color: red;">'+data+'<p><p>Refresh the page</p>');
       }
     });
   });  
@@ -73,30 +58,16 @@ $( document ).ready(function() {
     });
   });
   
-  $('#newBook').click(function(e) {
-
+  $('#newBook').click(function() {
     $.ajax({
       url: '/api/books',
       type: 'post',
       dataType: 'json',
       data: $('#newBookForm').serialize(),
       success: function(data) {
-        alert("Result=="+JSON.stringify(data))
-        if(data.status==200){
-          glcbalBookCounter++;
-          itemsRaw.push(data);
-          alert("glcbalBookCounter=="+glcbalBookCounter);
-          var result='<li class="bookItem" id="' + glcbalBookCounter + '">' + data.title + ' - ' + data.commentcount + ' comments</li>';
-          $('<ul/>', {
-            'class': 'listWrapper',
-            html: result
-          }).appendTo('#display');
-
-        }
         //update list
       }
     });
-    e.preventDefault();
   });
   
   $('#deleteAllBooks').click(function() {
@@ -107,8 +78,6 @@ $( document ).ready(function() {
       data: $('#newBookForm').serialize(),
       success: function(data) {
         //update list
-
-
       }
     });
   }); 

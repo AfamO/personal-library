@@ -15,7 +15,7 @@ $( document ).ready(function() {
     if (items.length >= 15) {
       items.push('<p>...and '+ (data.length - 15)+' more!</p>');
     }
-    $('<ul/>', {
+    $('<ul >', {
       'class': 'listWrapper',
       html: items.join('')
       }).appendTo('#display');
@@ -24,8 +24,10 @@ $( document ).ready(function() {
   var comments = [];
 
   $('#display').on('click','li.bookItem',function() {
+    glcbalBookCounter = this.id;
     $("#detailTitle").html('<b>'+itemsRaw[this.id].title+'</b> (id: '+itemsRaw[this.id]._id+')');
     $.getJSON('/api/books/'+itemsRaw[this.id]._id, function(data) {
+
       comments = [];
       $.each(data.comments, function(i, val) {
         comments.push('<li class="commentsList">' +val+ '</li>');
@@ -46,15 +48,18 @@ $( document ).ready(function() {
       success: function(data) {
         //update list
         if(data.status==200){
-          glcbalBookCounter++;
-          itemsRaw.pop();
+          var item=items.splice(glcbalBookCounter,1);
+          var itemRaw=itemsRaw.splice(glcbalBookCounter,1);
+          $('ul').remove();
           $('<ul/>', {
             'class': 'listWrapper',
-            html: itemsRaw.join('')
+            html: items.join('')
           }).appendTo('#display');
+          $("#detailTitle").html('');
+
 
         }
-        $('#detailComments').html('<p style="color: red;">'+data.msg+'<p><p>Refresh the page</p>');
+        $('#detailComments').html('<p style="color: red;">'+data.msg+'. The Book is no more in the list </p>');
       }
     });
   });  
@@ -81,16 +86,16 @@ $( document ).ready(function() {
       dataType: 'json',
       data: $('#newBookForm').serialize(),
       success: function(data) {
-        alert("Result=="+JSON.stringify(data))
         if(data.status==200){
           glcbalBookCounter++;
           itemsRaw.push(data);
-          alert("glcbalBookCounter=="+glcbalBookCounter);
           var result='<li class="bookItem" id="' + glcbalBookCounter + '">' + data.title + ' - ' + data.commentcount + ' comments</li>';
+          items.push(result);
           $('<ul/>', {
             'class': 'listWrapper',
             html: result
           }).appendTo('#display');
+          $('#msg').html('<p style="color: blue;">Successfully added <i>'+data.title+'</i> see it in the list below<p>');
 
         }
         //update list
